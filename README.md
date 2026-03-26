@@ -48,4 +48,4 @@ A sleek, lightweight Android contact manager featuring a dual-interface approach
 ### Installation
 1. Clone the repository:
    ```bash
-   git clone [https://github.com/yourusername/contact-app-recycler.git](https://github.com/yourusername/contact-app-recycler.git)
+   git clone [https://github.com/Ahmed8881/Contact_Page.git]
