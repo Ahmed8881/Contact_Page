@@ -1,10 +1,10 @@
-# 📱 Contact App (Recycler / Grid)
+# Contact App (Recycler / Grid)
 
 A sleek, lightweight Android contact manager featuring a dual-interface approach. This application demonstrates advanced **RecyclerView** implementations, dynamic filtering, and custom dialog interactions.
 
 ---
 
-## ✨ Features
+##  Features
 
 * **Quick-Add Interface:** Effortlessly create contacts with profile image support.
 * **Dynamic Grid View:** A high-density overview of all saved contacts.
@@ -14,7 +14,7 @@ A sleek, lightweight Android contact manager featuring a dual-interface approach
 
 ---
 
-## 📸 Screenshots
+##  Screenshots
 
 | Add & Edit | Linear Layout | Grid View |
 |:---:|:---:|:---:|
@@ -24,7 +24,7 @@ A sleek, lightweight Android contact manager featuring a dual-interface approach
 
 ---
 
-## 🛠️ Technical Stack
+##  Technical Stack
 
 * **Language:** Kotlin
 * **UI Framework:** Android XML (View-based)
@@ -38,7 +38,7 @@ A sleek, lightweight Android contact manager featuring a dual-interface approach
 
 ---
 
-## 🚀 Getting Started
+##  Getting Started
 
 ### Prerequisites
 * Android Studio Ladybug (or newer)
