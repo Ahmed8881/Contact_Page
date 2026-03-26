@@ -22,12 +22,13 @@ class MainActivity : AppCompatActivity(), ContactAdapter.OnContactActionListener
     private lateinit var etName: EditText
     private lateinit var etPhone: EditText
     private lateinit var btnSave: Button
+    private lateinit var btnLoadContacts: Button
     private lateinit var recyclerViewContacts: RecyclerView
 
     private lateinit var contactAdapter: ContactAdapter
     private val contactList = mutableListOf<Contact>()
 
-
+    // for contact loading permission request
     private val requestContactsPermission =
         registerForActivityResult(ActivityResultContracts.RequestPermission()) { isGranted ->
             if (isGranted) {
@@ -46,6 +47,7 @@ class MainActivity : AppCompatActivity(), ContactAdapter.OnContactActionListener
         etName = findViewById(R.id.etName)
         etPhone = findViewById(R.id.etPhone)
         btnSave = findViewById(R.id.btnSave)
+        btnLoadContacts = findViewById(R.id.btnLoadContacts)
         recyclerViewContacts = findViewById(R.id.recyclerViewContacts)
 
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
@@ -59,12 +61,13 @@ class MainActivity : AppCompatActivity(), ContactAdapter.OnContactActionListener
         recyclerViewContacts.layoutManager = LinearLayoutManager(this)
         recyclerViewContacts.adapter = contactAdapter
 
-        // Load existing contacts from phone if permission granted
-        //   checkPermissionAndLoadContacts()
-
-        // Button Click Listener
+        // Button Click Listeners
         btnSave.setOnClickListener {
             saveContact()
+        }
+
+        btnLoadContacts.setOnClickListener {
+            checkPermissionAndLoadContacts()
         }
     }
 
@@ -88,12 +91,7 @@ class MainActivity : AppCompatActivity(), ContactAdapter.OnContactActionListener
         etName.requestFocus()
     }
 
-    private fun validateInputs(
-        name: String,
-        phone: String,
-        nameInput: EditText,
-        phoneInput: EditText
-    ): Boolean {
+    private fun validateInputs(name: String, phone: String, nameInput: EditText, phoneInput: EditText): Boolean {
         var isValid = true
 
         if (name.isEmpty()) {
@@ -114,11 +112,7 @@ class MainActivity : AppCompatActivity(), ContactAdapter.OnContactActionListener
 
     override fun onItemClick(position: Int) {
         val contact = contactList[position]
-        Toast.makeText(
-            this,
-            "Contact: ${contact.name}\nPhone: ${contact.phone}",
-            Toast.LENGTH_SHORT
-        ).show()
+        Toast.makeText(this, "Contact: ${contact.name}\nPhone: ${contact.phone}", Toast.LENGTH_SHORT).show()
     }
 
     override fun onEditClick(position: Int) {
@@ -143,39 +137,6 @@ class MainActivity : AppCompatActivity(), ContactAdapter.OnContactActionListener
             .show()
     }
 
-    private fun showEditDialog(position: Int) {
-        val dialogView = LayoutInflater.from(this).inflate(R.layout.activity_dialog_edit_item, null)
-
-        val etEditName = dialogView.findViewById<EditText>(R.id.etEditName)
-        val etEditPhone = dialogView.findViewById<EditText>(R.id.etEditPhone)
-
-        val contact = contactList[position]
-        etEditName.setText(contact.name)
-        etEditPhone.setText(contact.phone)
-
-        val dialog = AlertDialog.Builder(this)
-            .setTitle("Edit Contact")
-            .setView(dialogView)
-            .setPositiveButton("Update", null)
-            .setNegativeButton("Cancel", null)
-            .create()
-
-        dialog.show()
-
-        dialog.getButton(AlertDialog.BUTTON_POSITIVE).setOnClickListener {
-            val updatedName = etEditName.text.toString().trim()
-            val updatedPhone = etEditPhone.text.toString().trim()
-
-            if (validateInputs(updatedName, updatedPhone, etEditName, etEditPhone)) {
-                contact.name = updatedName
-                contact.phone = updatedPhone
-                contactAdapter.notifyItemChanged(position)
-                Toast.makeText(this, "Contact updated", Toast.LENGTH_SHORT).show()
-                dialog.dismiss()
-            }
-        }
-    }
-
     private fun checkPermissionAndLoadContacts() {
         when {
             ContextCompat.checkSelfPermission(
@@ -184,18 +145,16 @@ class MainActivity : AppCompatActivity(), ContactAdapter.OnContactActionListener
             ) == PackageManager.PERMISSION_GRANTED -> {
                 loadContactsFromPhone()
             }
-
             shouldShowRequestPermissionRationale(Manifest.permission.READ_CONTACTS) -> {
                 AlertDialog.Builder(this)
-                    .setTitle("Contacts Permission")
-                    .setMessage("This app needs access to your contacts to load them into the list.")
-                    .setPositiveButton("Allow") { _, _ ->
+                    .setTitle("Permission Required")
+                    .setMessage("This app needs permission to read your contacts to display them.")
+                    .setPositiveButton("Grant") { _, _ ->
                         requestContactsPermission.launch(Manifest.permission.READ_CONTACTS)
                     }
-                    .setNegativeButton("Cancel", null)
+                    .setNegativeButton("Deny", null)
                     .show()
             }
-
             else -> {
                 requestContactsPermission.launch(Manifest.permission.READ_CONTACTS)
             }
@@ -232,13 +191,47 @@ class MainActivity : AppCompatActivity(), ContactAdapter.OnContactActionListener
             }
         }
 
+        if (loadedContacts.isEmpty()) {
+            Toast.makeText(this, "No contacts found on your phone", Toast.LENGTH_SHORT).show()
+            return
+        }
+
         contactList.clear()
         contactList.addAll(loadedContacts)
         contactAdapter.notifyDataSetChanged()
 
-        if (loadedContacts.isNotEmpty()) {
-            Toast.makeText(this, "${loadedContacts.size} contacts loaded", Toast.LENGTH_SHORT)
-                .show()
+        Toast.makeText(this, "${loadedContacts.size} contacts loaded", Toast.LENGTH_SHORT).show()
+    }
+
+    private fun showEditDialog(position: Int) {
+        val dialogView = LayoutInflater.from(this).inflate(R.layout.activity_dialog_edit_item, null)
+        val etEditName = dialogView.findViewById<EditText>(R.id.etEditName)
+        val etEditPhone = dialogView.findViewById<EditText>(R.id.etEditPhone)
+
+        val contact = contactList[position]
+        etEditName.setText(contact.name)
+        etEditPhone.setText(contact.phone)
+
+        val dialog = AlertDialog.Builder(this)
+            .setTitle("Edit Contact")
+            .setView(dialogView)
+            .setPositiveButton("Update", null)
+            .setNegativeButton("Cancel", null)
+            .create()
+
+        dialog.show()
+
+        dialog.getButton(AlertDialog.BUTTON_POSITIVE).setOnClickListener {
+            val updatedName = etEditName.text.toString().trim()
+            val updatedPhone = etEditPhone.text.toString().trim()
+
+            if (validateInputs(updatedName, updatedPhone, etEditName, etEditPhone)) {
+                contact.name = updatedName
+                contact.phone = updatedPhone
+                contactAdapter.notifyItemChanged(position)
+                Toast.makeText(this, "Contact updated", Toast.LENGTH_SHORT).show()
+                dialog.dismiss()
+            }
         }
     }
 }
