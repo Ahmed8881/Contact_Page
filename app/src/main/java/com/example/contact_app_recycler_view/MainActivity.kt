@@ -1,12 +1,14 @@
 package com.example.contact_app_recycler_view
 
 import android.Manifest
+import android.content.Intent
 import android.content.pm.PackageManager
 import android.os.Bundle
 import android.provider.ContactsContract
 import android.view.LayoutInflater
 import android.widget.Button
 import android.widget.EditText
+import android.widget.ImageView
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.enableEdgeToEdge
@@ -23,10 +25,14 @@ class MainActivity : AppCompatActivity(), ContactAdapter.OnContactActionListener
     private lateinit var etPhone: EditText
     private lateinit var btnSave: Button
     private lateinit var btnLoadContacts: Button
+    private lateinit var btnViewAll: Button
+    private lateinit var btnPickImage: Button
+    private lateinit var ivProfileImage: ImageView
     private lateinit var recyclerViewContacts: RecyclerView
 
     private lateinit var contactAdapter: ContactAdapter
     private val contactList = mutableListOf<Contact>()
+    private var selectedImageUri: String? = null
 
     // for contact loading permission request
     private val requestContactsPermission =
@@ -38,6 +44,19 @@ class MainActivity : AppCompatActivity(), ContactAdapter.OnContactActionListener
             }
         }
 
+    // for image picking
+    private val pickImageLauncher =
+        registerForActivityResult(ActivityResultContracts.GetContent()) { uri ->
+            if (uri != null) {
+                selectedImageUri = uri.toString()
+                ivProfileImage.setImageURI(uri)
+            }
+        }
+
+    companion object {
+        var allContactsList = mutableListOf<Contact>()
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
@@ -48,6 +67,9 @@ class MainActivity : AppCompatActivity(), ContactAdapter.OnContactActionListener
         etPhone = findViewById(R.id.etPhone)
         btnSave = findViewById(R.id.btnSave)
         btnLoadContacts = findViewById(R.id.btnLoadContacts)
+        btnViewAll = findViewById(R.id.btnViewAll)
+        btnPickImage = findViewById(R.id.btnPickImage)
+        ivProfileImage = findViewById(R.id.ivProfileImage)
         recyclerViewContacts = findViewById(R.id.recyclerViewContacts)
 
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
@@ -56,9 +78,9 @@ class MainActivity : AppCompatActivity(), ContactAdapter.OnContactActionListener
             insets
         }
 
-        // Setup RecyclerView
+        // Setup RecyclerView for recently added contacts
         contactAdapter = ContactAdapter(contactList, this)
-        recyclerViewContacts.layoutManager = LinearLayoutManager(this)
+        recyclerViewContacts.layoutManager = LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false)
         recyclerViewContacts.adapter = contactAdapter
 
         // Button Click Listeners
@@ -68,6 +90,14 @@ class MainActivity : AppCompatActivity(), ContactAdapter.OnContactActionListener
 
         btnLoadContacts.setOnClickListener {
             checkPermissionAndLoadContacts()
+        }
+
+        btnViewAll.setOnClickListener {
+            startActivity(Intent(this, ViewAllContactsActivity::class.java))
+        }
+
+        btnPickImage.setOnClickListener {
+            pickImageLauncher.launch("image/*")
         }
     }
 
@@ -79,8 +109,9 @@ class MainActivity : AppCompatActivity(), ContactAdapter.OnContactActionListener
             return
         }
 
-        val newContact = Contact(name, phone)
+        val newContact = Contact(name, phone, selectedImageUri)
         contactList.add(newContact)
+        allContactsList.add(newContact)
         contactAdapter.notifyItemInserted(contactList.size - 1)
         recyclerViewContacts.scrollToPosition(contactList.size - 1)
 
@@ -88,6 +119,8 @@ class MainActivity : AppCompatActivity(), ContactAdapter.OnContactActionListener
 
         etName.text.clear()
         etPhone.text.clear()
+        selectedImageUri = null
+        ivProfileImage.setImageResource(android.R.drawable.ic_menu_camera)
         etName.requestFocus()
     }
 
@@ -128,7 +161,9 @@ class MainActivity : AppCompatActivity(), ContactAdapter.OnContactActionListener
             .setTitle("Delete Contact")
             .setMessage("Are you sure you want to delete this contact?")
             .setPositiveButton("Yes") { _, _ ->
+                val deletedContact = contactList[position]
                 contactList.removeAt(position)
+                allContactsList.remove(deletedContact)
                 contactAdapter.notifyItemRemoved(position)
                 contactAdapter.notifyItemRangeChanged(position, contactList.size)
                 Toast.makeText(this, "Contact deleted", Toast.LENGTH_SHORT).show()
@@ -197,7 +232,9 @@ class MainActivity : AppCompatActivity(), ContactAdapter.OnContactActionListener
         }
 
         contactList.clear()
+        allContactsList.clear()
         contactList.addAll(loadedContacts)
+        allContactsList.addAll(loadedContacts)
         contactAdapter.notifyDataSetChanged()
 
         Toast.makeText(this, "${loadedContacts.size} contacts loaded", Toast.LENGTH_SHORT).show()

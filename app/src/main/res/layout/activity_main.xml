@@ -13,11 +13,28 @@
         android:id="@+id/tvTitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Contact Saver App"
+        android:text="Add Contact"
         android:textSize="24sp"
         android:textStyle="bold"
         android:layout_gravity="center_horizontal"
         android:layout_marginBottom="16dp" />
+
+    <ImageView
+        android:id="@+id/ivProfileImage"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginBottom="16dp"
+        android:scaleType="centerCrop"
+        android:contentDescription="Profile Image"
+        android:background="@android:drawable/ic_menu_camera" />
+
+    <Button
+        android:id="@+id/btnPickImage"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Pick Profile Image"
+        android:layout_marginBottom="12dp" />
 
     <EditText
         android:id="@+id/etName"
@@ -36,7 +53,6 @@
         android:maxLength="11"
         android:layout_marginBottom="12dp" />
 
-
     <Button
         android:id="@+id/btnSave"
         android:layout_width="match_parent"
@@ -44,13 +60,29 @@
         android:text="Save Contact"
         android:layout_marginBottom="16dp" />
 
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Recently Added"
+        android:textSize="14sp"
+        android:textStyle="bold"
+        android:layout_marginBottom="8dp" />
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerViewContacts"
         android:layout_width="match_parent"
-        android:layout_height="287dp"
-        android:layout_weight="1"
+        android:layout_height="150dp"
         android:clipToPadding="false"
         android:paddingBottom="8dp" />
+
+    <Button
+        android:id="@+id/btnViewAll"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="View All Contacts"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="8dp" />
+
     <Button
         android:id="@+id/btnLoadContacts"
         android:layout_width="match_parent"
