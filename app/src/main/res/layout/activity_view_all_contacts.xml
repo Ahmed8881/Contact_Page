@@ -1,43 +1,70 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#F8FAFC"
     android:orientation="vertical"
-    android:padding="12dp"
+    android:padding="16dp"
     tools:context=".ViewAllContactsActivity">
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="All Contacts"
-        android:textSize="22sp"
-        android:textStyle="bold"
         android:layout_gravity="center_horizontal"
-        android:layout_marginBottom="12dp" />
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="24dp"
+        android:fontFamily="sans-serif-medium"
+        android:text="All Contacts"
+        android:textColor="#1E293B"
+        android:textSize="24sp" />
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:gravity="center_vertical"
         android:orientation="horizontal"
-        android:layout_marginBottom="12dp">
+        android:layout_marginBottom="20dp">
 
-        <EditText
-            android:id="@+id/etSearch"
+        <androidx.cardview.widget.CardView
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            android:layout_height="50dp"
             android:layout_weight="1"
-            android:hint="Search by name or phone"
-            android:inputType="text"
-            android:layout_marginEnd="8dp" />
+            android:layout_marginEnd="12dp"
+            app:cardCornerRadius="25dp"
+            app:cardElevation="2dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:paddingHorizontal="16dp">
+
+                <EditText
+                    android:id="@+id/etSearch"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@android:color/transparent"
+                    android:hint="Search name or phone..."
+                    android:inputType="text"
+                    android:textColor="#334155"
+                    android:textSize="15sp" />
+            </LinearLayout>
+        </androidx.cardview.widget.CardView>
 
         <Button
             android:id="@+id/btnSort"
+            style="@style/Widget.MaterialComponents.Button.TextButton"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="50dp"
             android:text="Sort"
-            android:layout_marginEnd="4dp" />
+            android:textAllCaps="false"
+            android:textColor="#0056b3"
+            android:textStyle="bold"
+            app:icon="@android:drawable/ic_menu_sort_by_size" />
 
     </LinearLayout>
 
@@ -45,8 +72,12 @@
         android:id="@+id/gridViewContacts"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:clipToPadding="false"
+        android:gravity="center"
+        android:horizontalSpacing="12dp"
         android:numColumns="2"
-        android:horizontalSpacing="8dp"
-        android:verticalSpacing="8dp" />
+        android:padding="4dp"
+        android:scrollbarStyle="outsideOverlay"
+        android:verticalSpacing="12dp" />
 
 </LinearLayout>
