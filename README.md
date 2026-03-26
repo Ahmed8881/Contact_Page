@@ -6,37 +6,37 @@ Simple Android contact manager with support for profile images, quick-add form a
 
 ## Screenshots
 
-Image after adding a contact:
-
 <img width="320" alt="Added contact" src="https://github.com/user-attachments/assets/29a771b4-fb4a-468f-855d-9e62b822a40f" />
-
-Grid view:
+Image after adding a contact:
 
 <img width="320" alt="Grid view" src="https://github.com/user-attachments/assets/65d2b9fd-66f5-464d-9069-f43a79a25fea" />
 
-Editing a contact (dialog):
+Grid view:
 
 <img width="320" alt="Editing contact" src="https://github.com/user-attachments/assets/158e216c-3244-4081-9448-67573b62922c" />
 
-After update:
+Editing a contact (dialog):
 
 <img width="320" alt="After update" src="https://github.com/user-attachments/assets/a46dcb74-01f2-4f13-8321-a729c286027c" />
 
-Deleting a contact (confirm):
+After update:
+
 
 <img width="320" alt="Delete contact" src="https://github.com/user-attachments/assets/7b7190d6-1699-4ebd-aa48-288018aab37d" />
-
-After delete:
+Deleting a contact (confirm):
 
 <img width="320" alt="After delete" src="https://github.com/user-attachments/assets/eed29bd8-c60f-4a8f-8af9-c14b0fa27d7d" />
 
-Sorted (descending):
+After delete:
+
 
 <img width="320" alt="Sorted descending" src="https://github.com/user-attachments/assets/bb2ae2c2-2068-49ca-a8c8-2baff45b6ae5" />
+Sorted (descending):
+
+<img width="320" alt="Search" src="https://github.com/user-attachments/assets/f97e3541-aac8-458e-890d-387116f805e7" />
 
 Search example:
 
-<img width="320" alt="Search" src="https://github.com/user-attachments/assets/f97e3541-aac8-458e-890d-387116f805e7" />
 
 ---
 
