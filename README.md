@@ -16,7 +16,7 @@ A sleek, lightweight Android contact manager featuring a dual-interface approach
 
 ## 📸 Screenshots
 
-| Add & Edit | Grid & Search | Actions |
+| Add & Edit | Linear Layout | Actions |
 |:---:|:---:|:---:|
 | <img src="https://github.com/user-attachments/assets/29a771b4-fb4a-468f-855d-9e62b822a40f" width="200" /> | <img src="https://github.com/user-attachments/assets/65d2b9fd-66f5-464d-9069-f43a79a25fea" width="200" /> | <img src="https://github.com/user-attachments/assets/7b7190d6-1699-4ebd-aa48-288018aab37d" width="200" /> |
 | *Quick-Add Entry* | *Main Grid View* | *Delete Confirmation* |
