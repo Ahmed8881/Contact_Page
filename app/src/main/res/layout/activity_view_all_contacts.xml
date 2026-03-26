@@ -21,6 +21,17 @@
         android:textColor="#1E293B"
         android:textSize="24sp" />
 
+    <Button
+        android:id="@+id/btnBack"
+        style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="16dp"
+        android:text="Back"
+        android:textAllCaps="false"
+        android:textColor="#0056b3"
+        app:strokeColor="#0056b3" />
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

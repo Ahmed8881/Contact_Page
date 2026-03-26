@@ -19,6 +19,7 @@ class ViewAllContactsActivity : AppCompatActivity(), ContactGridAdapter.OnGridCo
     private lateinit var gridViewContacts: GridView
     private lateinit var etSearch: EditText
     private lateinit var btnSort: Button
+    private lateinit var btnBack: Button
     private lateinit var gridAdapter: ContactGridAdapter
     private var allContacts = mutableListOf<Contact>()
     private var filteredContacts = mutableListOf<Contact>()
@@ -32,6 +33,7 @@ class ViewAllContactsActivity : AppCompatActivity(), ContactGridAdapter.OnGridCo
         gridViewContacts = findViewById(R.id.gridViewContacts)
         etSearch = findViewById(R.id.etSearch)
         btnSort = findViewById(R.id.btnSort)
+        btnBack = findViewById(R.id.btnBack)
 
         // Get contacts from MainActivity via static variable
         allContacts = MainActivity.allContactsList.toMutableList()
@@ -60,6 +62,10 @@ class ViewAllContactsActivity : AppCompatActivity(), ContactGridAdapter.OnGridCo
             isAscending = !isAscending
             btnSort.text = if (isAscending) "Sort ↑" else "Sort ↓"
             filterContacts(etSearch.text.toString())
+        }
+
+        btnBack.setOnClickListener {
+            finish()
         }
     }
 
