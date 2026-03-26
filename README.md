@@ -36,6 +36,7 @@ Sorted (descending):
 <img width="320" alt="Search" src="https://github.com/user-attachments/assets/f97e3541-aac8-458e-890d-387116f805e7" />
 
 Search example:
+<img width="400" height="857" alt="image" src="https://github.com/user-attachments/assets/657c2a3f-99ee-407c-b4f0-9e9fdecab7ad" />
 
 
 ---
